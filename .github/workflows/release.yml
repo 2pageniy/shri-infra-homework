@@ -33,10 +33,15 @@ jobs:
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
 
-      - name: Create new branch
-        run: |
-          git checkout -b release/${{ github.run_number }}
-          git push origin release/${{ github.run_number }}
+#      - name: Create new branch
+#        run: |
+#          git checkout -b release/${{ github.run_number }}
+#          git push origin release/${{ github.run_number }}
 
       - name: Docker login cr yandex
         run: docker login --username oauth --password ${{ secrets.OAUTH_TOKEN }} cr.yandex
+      - name: Create docker image and push
+        run: |
+          npm run build:docker
+          docker tag hw_store:shri-infra cr.yandex/crp712hl47j0hbu7q0a0/app:${{ github.run_number }}
+          docker tag hw_store:shri-infra cr.yandex/crp712hl47j0hbu7q0a0/app:${{ github.run_number }}_latest
