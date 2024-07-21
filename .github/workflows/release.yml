@@ -49,18 +49,18 @@ jobs:
         run: |
           git checkout -b release/${{ github.run_number }}
           git push origin release/${{ github.run_number }}
-            - name: Docker login cr yandex
-              run: docker login --username oauth --password ${{ secrets.OAUTH_TOKEN }} cr.yandex
-            - name: Build docker
-              run: npm run build:docker
-            - name: Tag image
-              run: |
-                docker tag hw_store:shri-infra cr.yandex/crpuv35ridrbq7gl8980/app:${{ github.run_number }}
-                docker tag hw_store:shri-infra cr.yandex/crpuv35ridrbq7gl8980/app:${{ github.run_number }}_latest
-            - name: Push image
-              run: |
-                docker push cr.yandex/crpuv35ridrbq7gl8980/app:${{ github.run_number }}
-                docker push cr.yandex/crpuv35ridrbq7gl8980/app:${{ github.run_number }}_latest
+      - name: Docker login cr yandex
+        run: docker login --username oauth --password ${{ secrets.OAUTH_TOKEN }} cr.yandex
+      - name: Build docker
+        run: npm run build:docker
+      - name: Tag image
+        run: |
+          docker tag hw_store:shri-infra cr.yandex/crpuv35ridrbq7gl8980/app:${{ github.run_number }}
+          docker tag hw_store:shri-infra cr.yandex/crpuv35ridrbq7gl8980/app:${{ github.run_number }}_latest
+      - name: Push image
+        run: |
+          docker push cr.yandex/crpuv35ridrbq7gl8980/app:${{ github.run_number }}
+          docker push cr.yandex/crpuv35ridrbq7gl8980/app:${{ github.run_number }}_latest
       - name: Get current date
         run: echo "CURRENT_DATE=$(date +'%d-%m-%Y')" >> $GITHUB_ENV
       - name: Get all commits
