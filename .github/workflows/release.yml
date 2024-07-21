@@ -69,7 +69,7 @@ jobs:
           current_version=${{ github.run_number }}
           prev_version=$((current_version - 1))
           git fetch --tags
-          echo "ALL_COMMITS=$(git log v$prev_version..v$current_version)" >> $GITHUB_ENV
+          echo "ALL_COMMITS=$(git log --oneline v$prev_version..v$current_version)" >> $GITHUB_ENV
       - name: Create an issue
         uses: dacbd/create-issue-action@main
         with:
