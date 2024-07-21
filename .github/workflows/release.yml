@@ -14,7 +14,6 @@ jobs:
       matrix:
         node-version: [ 20.x ]
         script: ['npm run lint', 'npm run test']
-
     steps:
       - uses: actions/checkout@v2
       - name: Staring Node.js ${{ matrix.node-version }}
@@ -25,6 +24,20 @@ jobs:
         run: npm ci
       - name: Run script
         run: ${{ matrix.script }}
+
+  docker_job:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [ 20.x ]
+    steps:
+      - uses: actions/checkout@v2
+      - name: Staring Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: install modules
+        run: npm ci
       - name: Create Release
         uses: actions/checkout@v2
       - name: Configure Git
@@ -51,9 +64,6 @@ jobs:
         run: |
           docker push cr.yandex/crpuv35ridrbq7gl8980/app:${{ github.run_number }}
           docker push cr.yandex/crpuv35ridrbq7gl8980/app:${{ github.run_number }}_latest
-          
-
-      - name: create an issue
+      - name: Create an issue
         run: gh issue create --title "My new issue" --body "Here are more details."
-
 #          docker tag hw_store:shri-infra cr.yandex/crp712hl47j0hbu7q0a0/app:${{ github.run_number }}_latest
