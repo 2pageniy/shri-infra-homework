@@ -1,0 +1,52 @@
+name: Fix Release
+run-name: Fix release ${{ github.run_number }}
+
+on:
+  workflow_dispatch:
+    inputs:
+      release_version:
+        description: 'Version release'
+        required: true
+        default: 'v11'
+
+
+jobs:
+  pipeline:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [ 20.x ]
+        script: [ 'npm run lint', 'npm run test' ]
+    steps:
+      - name: Create Release
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.TOKEN }}
+      - name: Git config
+        run: |
+          git config --global user.name "Vladislav Serov"
+          git config --global user.email "serov.vladsilaw@yandex.ru"
+          git checkout release/${{ github.event.inputs.release_version }}
+      - uses: actions/checkout@v4
+      - name: Staring Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: install modules
+        run: npm ci
+      - name: Run script
+        run: ${{ matrix.script }}
+  fix-release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Create Release
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.TOKEN }}
+      - name: Git config
+        run: |
+          git config --global user.name "Vladislav Serov"
+          git config --global user.email "serov.vladsilaw@yandex.ru"
+          git checkout release/${{ github.event.inputs.release_version }}
