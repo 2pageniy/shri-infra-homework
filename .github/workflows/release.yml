@@ -40,8 +40,15 @@ jobs:
 
       - name: Docker login cr yandex
         run: docker login --username oauth --password ${{ secrets.OAUTH_TOKEN }} cr.yandex
-      - name: Create docker image and push
+      - name: Build docker
+        run: npm run build:docker
+      - name: Tag image
         run: |
-          npm run build:docker
-          docker tag hw_store:shri-infra cr.yandex/crp712hl47j0hbu7q0a0/app:${{ github.run_number }}
-          docker tag hw_store:shri-infra cr.yandex/crp712hl47j0hbu7q0a0/app:${{ github.run_number }}_latest
+          docker tag hw_store:shri-infra cr.yandex/crpuv35ridrbq7gl8980/app:${{ github.run_number }}
+          docker tag hw_store:shri-infra cr.yandex/crpuv35ridrbq7gl8980/app:${{ github.run_number }}_latest
+      - name: Push image
+        run: |
+          docker push cr.yandex/crpuv35ridrbq7gl8980/app:${{ github.run_number }}
+          docker push cr.yandex/crpuv35ridrbq7gl8980/app:${{ github.run_number }}_latest
+
+#          docker tag hw_store:shri-infra cr.yandex/crp712hl47j0hbu7q0a0/app:${{ github.run_number }}_latest
