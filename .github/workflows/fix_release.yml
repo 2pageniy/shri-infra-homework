@@ -64,6 +64,5 @@ jobs:
           docker push cr.yandex/crpuv35ridrbq7gl8980/app:${{ github.event.inputs.release_version }}_latest
       - name: Set tag release commit
         run: |
-          git tag -a v${{ github.event.inputs.release_version }} -m "version ${{ github.event.inputs.release_version }} release"
-          git tag -a fix${{ github.run_number }} -m "Fix ${{ github.run_number }}"
+          git tag -a v${{ github.event.inputs.release_version }}_fix${{ github.run_number }} -m "Fix ${{ github.run_number }}"
           git push origin --tags
