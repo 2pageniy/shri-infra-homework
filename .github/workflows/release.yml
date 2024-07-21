@@ -71,8 +71,9 @@ jobs:
           current_version=${{ github.run_number }}
           prev_version=$((current_version - 1))
           git fetch --tags
-          echo "commmits_content<<EOF" >> $GITHUB_OUTPUT
-          echo "$(git log --oneline v$prev_version..v$current_version)" >> $GITHUB_OUTPUT
+          echo "commmits_content" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+          echo "$(git log --oneline v11..v21)" >> $GITHUB_OUTPUT
           echo "EOF" >> $GITHUB_OUTPUT
       - name: Create an issue
         uses: dacbd/create-issue-action@main
