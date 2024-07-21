@@ -71,12 +71,9 @@ jobs:
           echo "$current_version"
           echo "$prev_version"
           TAG1=v$prev_version
-          TAG2=v$current_version
+          TAG2=v$prev_version
           commits=$(git log --oneline $TAG1..$TAG2)
           echo "ALL_COMMITS=$commits" >> $GITHUB_ENV
-          echo "$commits"
-          echo "$TAG1"
-          echo "$TAG2"
       - name: Create an issue
         uses: dacbd/create-issue-action@main
         with:
