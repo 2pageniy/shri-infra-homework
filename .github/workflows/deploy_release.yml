@@ -18,3 +18,15 @@ jobs:
         with:
           fetch-depth: 0
           token: ${{ secrets.TOKEN }}
+      - name: Git config
+        run: |
+          git config --global user.name "Vladislav Serov"
+          git config --global user.email "serov.vladsilaw@yandex.ru"
+          git checkout release/${{ github.event.inputs.release_version }}
+      - name: executing remote ssh commands using ssh key
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          key: ${{ secrets.KEY }}
+          script: whoami
