@@ -32,7 +32,9 @@ jobs:
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
       - name: Set tag release commit
-        run: git tag -a v${{ github.run_number }} -m "version ${{ github.run_number }} release"
+        run: |
+          git tag -a v${{ github.run_number }} -m "version ${{ github.run_number }} release"
+          git push origin --tags
       - name: Create new branch
         run: |
           git checkout -b release/${{ github.run_number }}
@@ -52,10 +54,6 @@ jobs:
           
 
       - name: create an issue
-        uses: dacbd/create-issue-action@main
-        with:
-          token: ${{ github.token }}
-          title: Simple test issue
-          body: my new issue
+        run: gh issue create --title "My new issue" --body "Here are more details."
 
 #          docker tag hw_store:shri-infra cr.yandex/crp712hl47j0hbu7q0a0/app:${{ github.run_number }}_latest
