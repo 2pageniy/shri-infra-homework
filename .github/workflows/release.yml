@@ -94,8 +94,8 @@ jobs:
         run: |
           version=${{ github.run_number }}
           TEXT="## Version $version \n"
-          echo "$TEXT$(cat changelog.md)" > CHANGELOG.md
+          echo "$TEXT$(cat CHANGELOG.md)" > CHANGELOG.md
           git checkout main
-          git add changelog.md
+          git add CHANGELOG.md
           git commit -m "Update changelog for $version"
           git push https://x-access-token:${{ secrets.TOKEN }}@github.com/${{ github.repository }}
