@@ -64,6 +64,11 @@ jobs:
 #          docker push cr.yandex/crpuv35ridrbq7gl8980/app:${{ github.run_number }}_latest
       - name: Get current date
         run: echo "CURRENT_DATE=$(date +'%d-%m-%Y')" >> $GITHUB_ENV
+      - name: Get all commits
+        run: |
+          current_version=${{ github.run_number }}
+          prev_version=$((current_version - 1))
+          echo "ALL_COMMITS=$(git log --oneline $prev_version..$current_version)" >> $GITHUB_ENV
       - name: Create an issue
         uses: dacbd/create-issue-action@main
         with:
@@ -74,6 +79,6 @@ jobs:
             Дата: ${{ env.CURRENT_DATE }}
             Автор: ${{ github.triggering_actor }}
             Номер версии: ${{ github.run_number }}
-            Список коммитов: ${{ github.sha }}
+            Список коммитов: ${{ env.ALL_COMMITS }}
             Ссылка на docker-образ: cr.yandex/crpuv35ridrbq7gl8980/app:${{ github.run_number }}
 
