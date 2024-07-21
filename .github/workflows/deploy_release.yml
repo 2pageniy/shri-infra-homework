@@ -7,7 +7,7 @@ on:
       release_version:
         description: 'Version release'
         required: true
-        default: '11'
+        default: '80'
 
 jobs:
   deploy:
@@ -29,4 +29,6 @@ jobs:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}
           key: ${{ secrets.KEY }}
-          script: whoami
+          script: docker stop $(docker ps -aq) |
+            docker pull cr.yandex/crpuv35ridrbq7gl8980/app:${{ github.event.inputs.release_version }}_latest |
+            docker run -d -p 3000:3000 cr.yandex/crpuv35ridrbq7gl8980/app:${{ github.event.inputs.release_version }}_latest
