@@ -90,7 +90,7 @@ jobs:
         run: |
           version=${{ github.run_number }}
           TEXT="## Version $version \n\n ${{ env.commmits_content }}"
-          echo "$TEXT$(cat CHANGELOG.md)" > CHANGELOG.md
+          echo -e "$TEXT$(cat CHANGELOG.md)" > CHANGELOG.md
           git checkout main
           git add CHANGELOG.md
           git commit -m "Update changelog for $version"
