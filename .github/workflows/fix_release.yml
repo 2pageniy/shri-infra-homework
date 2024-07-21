@@ -7,7 +7,7 @@ on:
       release_version:
         description: 'Version release'
         required: true
-        default: 'v11'
+        default: '11'
 
 
 jobs:
@@ -50,3 +50,18 @@ jobs:
           git config --global user.name "Vladislav Serov"
           git config --global user.email "serov.vladsilaw@yandex.ru"
           git checkout release/${{ github.event.inputs.release_version }}
+      - name: Build docker
+        run: npm run build:docker
+      - name: Tag image
+        run: |
+          docker tag hw_store:shri-infra cr.yandex/crpuv35ridrbq7gl8980/app:${{ github.event.inputs.release_version }}_fix${{ github.run_number }}
+          docker tag hw_store:shri-infra cr.yandex/crpuv35ridrbq7gl8980/app:${{ github.event.inputs.release_version }}_latest
+      - name: Push image
+        run: |
+          docker push cr.yandex/crpuv35ridrbq7gl8980/app:${{ github.event.inputs.release_version }}_fix${{ github.run_number }}
+          docker push cr.yandex/crpuv35ridrbq7gl8980/app:${{ github.event.inputs.release_version }}_latest
+      - name: Set tag release commit
+        run: |
+          git tag -a v${{ github.event.inputs.release_version }} -m "version ${{ github.event.inputs.release_version }} release"
+          git tag -a fix${{ github.run_number }} -m "Fix ${{ github.run_number }}"
+          git push origin --tags
