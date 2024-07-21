@@ -65,7 +65,7 @@ jobs:
       - name: Get current date
         run: echo "CURRENT_DATE=$(date +'%d-%m-%Y')" >> $GITHUB_ENV
       - name: Get all commits
-#        run: |
+        run: |
           current_version=${{ github.run_number }}
           prev_version=$((current_version - 1))
           git fetch --tags
