@@ -37,3 +37,6 @@ jobs:
         run: |
           git checkout -b release/${{ github.run_number }}
           git push origin release/${{ github.run_number }}
+
+      - name: Docker login cr yandex
+        run: docker login --username oauth --password ${{ secrets.OAUTH_TOKEN }}
