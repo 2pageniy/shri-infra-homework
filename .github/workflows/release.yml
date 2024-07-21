@@ -69,10 +69,7 @@ jobs:
           current_version=${{ github.run_number }}
           prev_version=$((current_version - 1))
           git fetch --tags
-          COMMITS=$(git log --oneline v$prev_version..v$current_version)
-          echo "commits_between_tags<<EOF" >> $GITHUB_ENV
-          echo "$COMMITS" >> $GITHUB_ENV
-          echo "EOF" >> $GITHUB_ENV
+          echo "ALL_COMMITS=$(git log --oneline v$prev_version..v$current_version | tr '\n' ' ' )" >> $GITHUB_ENV
       - name: Create an issue
         uses: dacbd/create-issue-action@main
         with:
@@ -83,6 +80,6 @@ jobs:
             Дата: ${{ env.CURRENT_DATE }}
             Автор: ${{ github.triggering_actor }}
             Номер версии: ${{ github.run_number }}
-            Список коммитов: ${{ env.commits_between_tags }} ${{ env.COMMITS }} ${{ env.EOF }}
+            Список коммитов: ${{ env.ALL_COMMITS }}
             Ссылка на docker-образ: cr.yandex/crpuv35ridrbq7gl8980/app:${{ github.run_number }}
 
