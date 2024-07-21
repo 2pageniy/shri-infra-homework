@@ -45,22 +45,22 @@ jobs:
         run: |
           git tag -a v${{ github.run_number }} -m "version ${{ github.run_number }} release"
           git push origin --tags
-#      - name: Create new branch
-#        run: |
-#          git checkout -b release/${{ github.run_number }}
-#          git push origin release/${{ github.run_number }}
-      #      - name: Docker login cr yandex
-      #        run: docker login --username oauth --password ${{ secrets.OAUTH_TOKEN }} cr.yandex
-      #      - name: Build docker
-      #        run: npm run build:docker
-      #      - name: Tag image
-      #        run: |
-      #          docker tag hw_store:shri-infra cr.yandex/crpuv35ridrbq7gl8980/app:${{ github.run_number }}
-      #          docker tag hw_store:shri-infra cr.yandex/crpuv35ridrbq7gl8980/app:${{ github.run_number }}_latest
-      #      - name: Push image
-      #        run: |
-      #          docker push cr.yandex/crpuv35ridrbq7gl8980/app:${{ github.run_number }}
-      #          docker push cr.yandex/crpuv35ridrbq7gl8980/app:${{ github.run_number }}_latest
+      - name: Create new branch
+        run: |
+          git checkout -b release/${{ github.run_number }}
+          git push origin release/${{ github.run_number }}
+            - name: Docker login cr yandex
+              run: docker login --username oauth --password ${{ secrets.OAUTH_TOKEN }} cr.yandex
+            - name: Build docker
+              run: npm run build:docker
+            - name: Tag image
+              run: |
+                docker tag hw_store:shri-infra cr.yandex/crpuv35ridrbq7gl8980/app:${{ github.run_number }}
+                docker tag hw_store:shri-infra cr.yandex/crpuv35ridrbq7gl8980/app:${{ github.run_number }}_latest
+            - name: Push image
+              run: |
+                docker push cr.yandex/crpuv35ridrbq7gl8980/app:${{ github.run_number }}
+                docker push cr.yandex/crpuv35ridrbq7gl8980/app:${{ github.run_number }}_latest
       - name: Get current date
         run: echo "CURRENT_DATE=$(date +'%d-%m-%Y')" >> $GITHUB_ENV
       - name: Get all commits
@@ -72,18 +72,18 @@ jobs:
           echo "commmits_content<<EOF" >> $GITHUB_ENV 
           echo $(git log --oneline v$prev_version..v$current_version) >> $GITHUB_ENV 
           echo "EOF" >> $GITHUB_ENV
-#      - name: Create an issue
-#        uses: dacbd/create-issue-action@main
-#        with:
-#          token: ${{ secrets.TOKEN }}
-#          title: Release ${{ github.run_number }}
-#          body: |
-#            ## Release ${{ github.run_number }}:
-#            Дата: ${{ env.CURRENT_DATE }}
-#            Автор: ${{ github.triggering_actor }}
-#            Номер версии: ${{ github.run_number }}
-#            Список коммитов: ${{ env.commmits_content }}
-#            Ссылка на docker-образ: cr.yandex/crpuv35ridrbq7gl8980/app:${{ github.run_number }}
+      - name: Create an issue
+        uses: dacbd/create-issue-action@main
+        with:
+          token: ${{ secrets.TOKEN }}
+          title: Release ${{ github.run_number }}
+          body: |
+            ## Release ${{ github.run_number }}:
+            Дата: ${{ env.CURRENT_DATE }}
+            Автор: ${{ github.triggering_actor }}
+            Номер версии: ${{ github.run_number }}
+            Список коммитов: ${{ env.commmits_content }}
+            Ссылка на docker-образ: cr.yandex/crpuv35ridrbq7gl8980/app:${{ github.run_number }}
       - name: Update changelog
         env:
           GITHUB_TOKEN: ${{ secrets.TOKEN }}
