@@ -52,6 +52,8 @@ jobs:
           git checkout release/${{ github.event.inputs.release_version }}
       - name: Build docker
         run: npm run build:docker
+      - name: Docker login cr yandex
+        run: docker login --username oauth --password ${{ secrets.OAUTH_TOKEN }} cr.yandex
       - name: Tag image
         run: |
           docker tag hw_store:shri-infra cr.yandex/crpuv35ridrbq7gl8980/app:${{ github.event.inputs.release_version }}_fix${{ github.run_number }}
