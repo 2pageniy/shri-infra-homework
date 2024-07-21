@@ -12,3 +12,9 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    steps:
+      - name: git
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.TOKEN }}
