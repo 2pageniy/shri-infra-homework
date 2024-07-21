@@ -1,0 +1,14 @@
+name: Deploy Release
+run-name: Deploy release ${{ github.run_number }}
+
+on:
+  workflow_dispatch:
+    inputs:
+      release_version:
+        description: 'Version release'
+        required: true
+        default: '11'
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
