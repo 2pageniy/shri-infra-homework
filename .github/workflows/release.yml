@@ -95,4 +95,4 @@ jobs:
           echo "$TEXT$(cat changelog.md)" > changelog.md
           git add changelog.md
           git commit -m "Update changelog for $NEW_VERSION"
-          git push origin HEAD:main
+          git push
