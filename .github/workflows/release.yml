@@ -64,7 +64,7 @@ jobs:
 #          docker push cr.yandex/crpuv35ridrbq7gl8980/app:${{ github.run_number }}_latest
       - name: Get current date
         run: echo "CURRENT_DATE=$(date +'%d-%m-%Y')" >> $GITHUB_ENV
-      - name: Get all commits
+#      - name: Get all commits
         run: |
           current_version=${{ github.run_number }}
           prev_version=$((current_version - 1))
