@@ -46,10 +46,10 @@ jobs:
         run: |
           git tag -a v${{ github.run_number }} -m "version ${{ github.run_number }} release"
           git push origin --tags
-#      - name: Create new branch
-#        run: |
-#          git checkout -b release/${{ github.run_number }}
-#          git push origin release/${{ github.run_number }}
+      - name: Create new branch
+        run: |
+          git checkout -b release/${{ github.run_number }}
+          git push origin release/${{ github.run_number }}
 #      - name: Docker login cr yandex
 #        run: docker login --username oauth --password ${{ secrets.OAUTH_TOKEN }} cr.yandex
 #      - name: Build docker
@@ -68,6 +68,7 @@ jobs:
         run: |
           current_version=${{ github.run_number }}
           prev_version=$((current_version - 1))
+          git fetch --tags
           echo "ALL_COMMITS=$(git log --oneline v$prev_version..v$current_version)" >> $GITHUB_ENV
       - name: Create an issue
         uses: dacbd/create-issue-action@main
