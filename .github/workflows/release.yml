@@ -31,7 +31,7 @@ jobs:
       matrix:
         node-version: [ 20.x ]
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - name: Staring Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v1
         with:
@@ -65,11 +65,15 @@ jobs:
       - name: Get current date
         run: echo "CURRENT_DATE=$(date +'%d-%m-%Y')" >> $GITHUB_ENV
       - name: Get all commits
+        id: commits
         run: |
           current_version=${{ github.run_number }}
           prev_version=$((current_version - 1))
           git fetch --tags
-          echo "ALL_COMMITS=$(git log --oneline v$prev_version..v$current_version)" >> $GITHUB_ENV
+          ALL_COMMITS=$(git log --oneline v$prev_version..v$current_version)
+          echo "commmits<<EOF" >> $GITHUB_OUTPUT
+          echo "$ALL_COMMITS" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
       - name: Create an issue
         uses: dacbd/create-issue-action@main
         with:
@@ -80,6 +84,6 @@ jobs:
             Дата: ${{ env.CURRENT_DATE }}
             Автор: ${{ github.triggering_actor }}
             Номер версии: ${{ github.run_number }}
-            Список коммитов: ${{ env.ALL_COMMITS }}
+            Список коммитов: ${{ steps.commits.outputs.commmits }}
             Ссылка на docker-образ: cr.yandex/crpuv35ridrbq7gl8980/app:${{ github.run_number }}
 
