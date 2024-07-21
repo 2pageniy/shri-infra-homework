@@ -93,6 +93,7 @@ jobs:
           version=${{ github.run_number }}
           TEXT="## Version $version \n"
           echo "$TEXT$(cat changelog.md)" > changelog.md
+          git checkout main
           git add changelog.md
           git commit -m "Update changelog for $version"
           git push origin HEAD:main
