@@ -68,6 +68,8 @@ jobs:
         run: |
           current_version=${{ github.run_number }}
           prev_version=$((current_version - 1))
+          git tag
+          echo "git tag"
           git log v11..v21 --oneline
           echo "git log v11..v21 --oneline"
       - name: Create an issue
