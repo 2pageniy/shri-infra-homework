@@ -89,6 +89,8 @@ jobs:
 
       - name: Update changelog
         id: changelog
+        env:
+          GITHUB_TOKEN: ${{ secrets.TOKEN }}
         run: |
           version=${{ github.run_number }}
           TEXT="## Version $version \n"
@@ -97,5 +99,3 @@ jobs:
           git add changelog.md
           git commit -m "Update changelog for $version"
           git push origin HEAD:main
-        env:
-          GITHUB_TOKEN: ${{ secrets.TOKEN }}
