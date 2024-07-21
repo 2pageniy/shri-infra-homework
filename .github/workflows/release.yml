@@ -36,8 +36,6 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
-      - name: install modules
-        run: npm ci
       - name: Create Release
         uses: actions/checkout@v2
       - name: Configure Git
@@ -64,12 +62,18 @@ jobs:
 #        run: |
 #          docker push cr.yandex/crpuv35ridrbq7gl8980/app:${{ github.run_number }}
 #          docker push cr.yandex/crpuv35ridrbq7gl8980/app:${{ github.run_number }}_latest
+      - name: Get current date
+        run: echo "CURRENT_DATE=$(date +'%d-%m-%Y')" >> $GITHUB_ENV
       - name: Create an issue
         uses: dacbd/create-issue-action@main
         with:
           token: ${{ secrets.TOKEN }}
           title: Release ${{ github.run_number }}
           body: |
-            ## Release ${{ github.run_number }}: Issue:
-            bla-bla string
+            ## Release ${{ github.run_number }}:
+            Дата: ${{ env.CURRENT_DATE }}
+            Автор: ${{ github.triggering_actor }}
+            Номер версии: ${{ github.run_number }}
+            Список коммитов: ${{ github.sha }}
+            Ссылка на docker-образ: cr.yandex/crpuv35ridrbq7gl8980/app:${{ github.run_number }}
 
